@@ -49,14 +49,9 @@ sync_command(Key, Command)->
 
 coverage_command(Command) ->
     Timeout = 5000,
-    ReqId = erlang:phash2(make_ref()), % must be an int
-    {ok, _Process} = rc_example_coverage_fsm:start_link(ReqId, self(), Command, Timeout),
-    receive
-        {ReqId, Val} ->
-            Val
-    after Timeout ->
-              exit(timeout)
-    end.
+    riak_core_coverage_fold:run_link(fun(Partition, Node, Data, Acc) ->
+                                             [{Partition, Node, Data}|Acc]
+                                     end, [], {rc_example_vnode_master, rc_example, Command}, Timeout).
 
 coverage_to_list({ok, CoverageResult}) ->
     {ok, lists:foldl(
