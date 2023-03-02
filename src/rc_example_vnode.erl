@@ -38,7 +38,7 @@ handle_command(Message, _Sender, State) ->
 
 handle_handoff_command(?FOLD_REQ{foldfun=FoldFun, acc0=Acc0}, _Sender,
                        State = #{data := Data}) ->
-    log("Received fold request for handoff", State),
+    [ log("Received fold request for handoff", State) || maps:size(Data) > 0 ],
     Result = maps:fold(FoldFun, Acc0, Data),
     {reply, Result, State};
 handle_handoff_command({get, Key}, Sender, State) ->

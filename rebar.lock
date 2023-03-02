@@ -39,7 +39,7 @@
   1},
  {<<"riak_core">>,
   {git,"https://github.com/JesseStimpson/riak_core",
-       {ref,"965d991c767643c372111b16817fbf6554809005"}},
+       {ref,"35842f3559e69a469289813f8f5095864cfd3b7e"}},
   0},
  {<<"riak_ensemble">>,
   {git,"https://github.com/JesseStimpson/riak_ensemble",

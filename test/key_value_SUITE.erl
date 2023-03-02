@@ -40,6 +40,11 @@ start_node(Name, Host, WebPort, HandoffPort) ->
     ok = rpc:call(Node, application, set_env, [riak_core, web_port, WebPort]),
     ok = rpc:call(Node, application, set_env, [riak_core, handoff_port, HandoffPort]),
     ok = rpc:call(Node, application, set_env, [riak_core, schema_dirs, ["../../lib/rc_example/priv"]]),
+    ok = rpc:call(Node, application, set_env, [riak_core, vnode_management_timer, 10]),
+    ok = rpc:call(Node, application, set_env, [riak_core, handoff_concurrency, 100]),
+    ok = rpc:call(Node, application, set_env, [riak_core, gossip_interval, 10]),
+    ok = rpc:call(Node, application, set_env, [riak_core, vnode_inactivity_timeout, 10]),
+    ok = rpc:call(Node, application, set_env, [riak_core, ring_creation_size, 64]),
 
     %% start the rc_example app
     {ok, _} = rpc:call(Node, application, ensure_all_started, [rc_example]),
@@ -49,6 +54,7 @@ start_node(Name, Host, WebPort, HandoffPort) ->
 build_cluster(Node1, Node2, Node3) ->
     rpc:call(Node2, riak_core, join, [Node1]),
     rpc:call(Node3, riak_core, join, [Node1]),
+    timer:sleep(1000),
     ok.
 
 end_per_suite(_Config) ->
