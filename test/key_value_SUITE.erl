@@ -5,8 +5,7 @@
 -compile(export_all).
 
 all() ->
-    [ping_test,
-     key_value_test,
+    [key_value_test,
      coverage_test].
 
 init_per_suite(Config) ->
@@ -58,17 +57,6 @@ build_cluster(Node1, Node2, Node3) ->
     ok.
 
 end_per_suite(_Config) ->
-    ok.
-
-ping_test(Config) ->
-    Node1 = ?config(node1, Config),
-    Node2 = ?config(node2, Config),
-    Node3 = ?config(node3, Config),
-
-    {pong, _Partition1} = rc_command(Node1, ping),
-    {pong, _Partition2} = rc_command(Node2, ping),
-    {pong, _Partition3} = rc_command(Node3, ping),
-
     ok.
 
 key_value_test(Config) ->

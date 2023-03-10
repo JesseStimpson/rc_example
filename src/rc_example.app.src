@@ -9,7 +9,8 @@
     lager,
     compiler,
     cuttlefish,
-    riak_core
+    riak_core,
+    riak_dt
    ]},
   {env,[]},
   {modules, []},
