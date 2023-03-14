@@ -119,12 +119,12 @@ handle_handoff_command(?FOLD_REQ{foldfun=FoldFun, acc0=Acc0}, _Sender,
     {reply, Result, State};
 handle_handoff_command({get_partition_for_name, _}, _Sender, State) ->
     {forward, State};
-handle_handoff_command(Get={get, _, _}, Sender, State) ->
+handle_handoff_command(Get={get,Name, _}, Sender, State) ->
     %%  if the command is read (a get), we reply with our local copy of the
     %%  data (we know it's up to date because we applied all the writes locally)
     log("GET during handoff, handling locally ~p", [Name], State),
     handle_command(Get, Sender, State);
-handle_handoff_command(Watch={watch, _, _, _}, _Sender, State) ->
+handle_handoff_command(Watch={watch, _, _, _}, Sender, State) ->
     %% we know our copy is up to date, so we can accept the watch
     handle_command(Watch, Sender, State);
 handle_handoff_command(Message, Sender, State) ->
